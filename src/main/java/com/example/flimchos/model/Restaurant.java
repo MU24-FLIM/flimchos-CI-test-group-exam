@@ -19,6 +19,12 @@ public class Restaurant {
     public Restaurant() {
     }
 
+    public Restaurant(Long id, String email, String city) {
+        this.id = id;
+        this.email = email;
+        this.city = city;
+    }
+
     public Long getId() {
         return id;
     }
