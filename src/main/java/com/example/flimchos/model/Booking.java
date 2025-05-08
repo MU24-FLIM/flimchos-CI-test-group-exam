@@ -1,6 +1,13 @@
 package com.example.flimchos.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 
 @Table(name = "bookings")
 @Entity
@@ -9,12 +16,21 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private LocalDate date;
+    private LocalTime time;
     private int guests;
     private int guestId;
-    private int restaurant;
+    private int restaurantId;
 
     public Booking() {
+    }
+
+    public Booking(LocalDate date, LocalTime time, int guests, int guestId, int restaurantId) {
+        this.date = date;
+        this.time = time;
+        this.guests = guests;
+        this.guestId = guestId;
+        this.restaurantId = restaurantId;
     }
 
     public Long getId() {
@@ -25,12 +41,20 @@ public class Booking {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     public int getGuests() {
@@ -49,11 +73,11 @@ public class Booking {
         this.guestId = guestId;
     }
 
-    public int getRestaurant() {
-        return restaurant;
+    public int getRestaurantId() {
+        return restaurantId;
     }
 
-    public void setRestaurant(int restaurant) {
-        this.restaurant = restaurant;
+    public void setRestaurantId(int restaurant) {
+        this.restaurantId = restaurant;
     }
 }
