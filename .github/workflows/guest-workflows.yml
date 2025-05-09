@@ -2,14 +2,15 @@ name: guest github actions
 on: [pull_request]
 
 jobs:
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-    - name: maven install
-      run: mvn -e install
-    - name: maven build
-      run: mvn -e test
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: maven install
+        run: mvn -e install
+      - name: maven build
+        run: mvn -e test
