@@ -16,20 +16,24 @@ public class Booking {
     private LocalDate date;
     private LocalTime time;
     private int guests;
-    private int guestId;
-    private int restaurantId;
+    @ManyToOne
+    @JoinColumn(name = "guest_id")
+    private Guest guest;
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
 
 
     public Booking() {
     }
 
-    public Booking(LocalDate date, LocalTime time, int guests, int guestId, int restaurantId) {
+    public Booking(LocalDate date, LocalTime time, int guests, Guest guest, Restaurant restaurant) {
         this.date = date;
         this.time = time;
         this.guests = guests;
-        this.guestId = guestId;
-        this.restaurantId = restaurantId;
+        this.guest = guest;
+        this.restaurant = restaurant;
     }
 
     public Long getId() {
@@ -64,20 +68,20 @@ public class Booking {
         this.guests = guests;
     }
 
-    public int getGuestId() {
-        return guestId;
+    public Guest getGuest() {
+        return guest;
     }
 
-    public void setGuestId(int guestId) {
-        this.guestId = guestId;
+    public void setGuest(Guest guest) {
+        this.guest = guest;
     }
 
-    public int getRestaurantId() {
-        return restaurantId;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRestaurantId(int restaurant) {
-        this.restaurantId = restaurant;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
 
