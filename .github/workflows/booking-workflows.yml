@@ -44,7 +44,7 @@ jobs:
       - name: Run tests with Maven
         run: mvn -e test
   on-pull_request:
-    if: github.event_name == 'pull_request' && github.ref_name == 'booking-branch'
+    if: github.event_name == 'pull_request' && github.base_ref == 'booking-branch'
     runs-on: ubuntu-latest
     steps:
       - name: Print Message on Pull Request
