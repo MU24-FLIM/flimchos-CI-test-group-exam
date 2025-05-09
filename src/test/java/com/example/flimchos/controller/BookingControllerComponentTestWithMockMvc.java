@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 @ActiveProfiles("test")
-class BookingControllerComponentTest {
+class BookingControllerComponentTestWithMockMvc {
 
     @Autowired
     private MockMvc mockMvc;
