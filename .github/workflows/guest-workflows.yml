@@ -1,4 +1,4 @@
-name: guest github actions
+name: Guest working
 on: [pull_request]
 
 jobs:
