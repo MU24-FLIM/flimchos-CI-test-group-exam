@@ -37,7 +37,7 @@ jobs:
 
 
     env:
-      DB_URL: jdbc:mysql://localhost:3306/testdb
+      DB_URL: jdbc:mysql://localhost:3306/test_db
       DB_USER: test_user
       DB_PASSWORD: test_pass
 
