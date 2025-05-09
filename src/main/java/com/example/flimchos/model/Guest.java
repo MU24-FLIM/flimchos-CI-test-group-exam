@@ -1,9 +1,6 @@
 package com.example.flimchos.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Guest {
@@ -15,6 +12,9 @@ public class Guest {
     private String name;
 
     private String email;
+
+    @ManyToOne
+    private Booking booking;
 
     public Guest() {
     }
