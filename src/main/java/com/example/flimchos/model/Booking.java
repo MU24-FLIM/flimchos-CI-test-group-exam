@@ -1,5 +1,6 @@
 package com.example.flimchos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -17,6 +18,8 @@ public class Booking {
     private int guests;
     private int guestId;
     private int restaurantId;
+
+
 
     public Booking() {
     }
@@ -76,4 +79,6 @@ public class Booking {
     public void setRestaurantId(int restaurant) {
         this.restaurantId = restaurant;
     }
+
+
 }
