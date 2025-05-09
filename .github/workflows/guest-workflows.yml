@@ -12,5 +12,5 @@ jobs:
           java-version: '21'
       - name: maven install
         run: mvn -e install
-      - name: maven build
-        run: mvn -e test
+      - name: maven specific test
+        run: mvn -e -Dtest=com.example.flimchos.service.GuestServiceTest test
