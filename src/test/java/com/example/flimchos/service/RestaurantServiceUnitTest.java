@@ -1,5 +1,6 @@
 package com.example.flimchos.service;
 
+import com.example.flimchos.model.Booking;
 import com.example.flimchos.model.Restaurant;
 import com.example.flimchos.repository.RestaurantRepository;
 import org.mockito.Mock;
@@ -10,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,7 +34,8 @@ class RestaurantServiceUnitTest {
     public void testGetRestaurantByIdReturnsRestaurant() {
 
         //arrange
-        Restaurant restaurant = new Restaurant(1L, "flimchos_teststan@example.com", "Teststan");
+        List<Booking> bookings = new ArrayList<>();
+        Restaurant restaurant = new Restaurant(1L, "flimchos_teststan@example.com", "Teststan", bookings);
 
         when(restaurantRepository.findById(1L)).thenReturn(Optional.of(restaurant));
 
