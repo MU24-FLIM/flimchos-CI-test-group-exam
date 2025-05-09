@@ -6,7 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print Message
-        run: echo 'Push from ' github.triggering_actor ' Fredrik detected!'
+        run: |
+          user = github.triggering_actor
+          echo 'Push from ' $user ' Fredrik detected!'
 #      - name: Checkout
 #        uses: actions/checkout@v4
 #      - name: Setup Java 21
