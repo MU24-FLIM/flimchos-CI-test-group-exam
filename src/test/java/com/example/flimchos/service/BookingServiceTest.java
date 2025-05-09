@@ -1,7 +1,11 @@
 package com.example.flimchos.service;
 
 import com.example.flimchos.model.Booking;
+import com.example.flimchos.model.Guest;
+import com.example.flimchos.model.Restaurant;
 import com.example.flimchos.repository.BookingRepository;
+import com.example.flimchos.repository.GuestRepository;
+import com.example.flimchos.repository.RestaurantRepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +16,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -23,6 +29,10 @@ class BookingServiceTest {
 
     @Mock
     private BookingRepository bookingRepository;
+    @Mock
+    private RestaurantRepository restaurantRepository;
+    @Mock
+    private GuestRepository guestRepository;
 
     @InjectMocks
     private BookingService bookingService;
@@ -30,20 +40,24 @@ class BookingServiceTest {
     @Test
     public void testCreateBooking() {
         //Arrange
+        Guest guest = new Guest(1L, "Madde", "<EMAIL>");
+        Restaurant restaurant = new Restaurant(1L, "<EMAIL>", "Linda", new ArrayList<>());
         LocalDate date = LocalDate.of(2025,11,01);
         LocalTime time = LocalTime.of(15,00);
-        Booking booking = new Booking(date, time, 5, 1, 1);
+        Booking booking = new Booking(date, time, 5, guest, restaurant);
         when(bookingRepository.save(any())).thenReturn(booking);
+        when(restaurantRepository.findById(any())).thenReturn(Optional.of(restaurant));
+        when(guestRepository.findById(any())).thenReturn(Optional.of(guest));
 
         //Act
-        Booking response = bookingService.createBooking(booking);
+        Booking response = bookingService.createBooking(booking, restaurant.getId(), guest.getId());
 
         //Assert
         assertEquals(date, response.getDate());
         assertEquals(time, response.getTime());
         assertEquals(5, response.getGuests());
-        assertEquals(1, response.getGuestId());
-        assertEquals(1, response.getRestaurantId());
+        assertEquals("Madde", guest.getName());
+        assertEquals("Linda", restaurant.getCity());
 
     }
 
