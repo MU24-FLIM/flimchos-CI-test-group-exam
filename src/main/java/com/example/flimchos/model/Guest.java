@@ -2,6 +2,8 @@ package com.example.flimchos.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Guest {
 
@@ -13,8 +15,8 @@ public class Guest {
 
     private String email;
 
-    @ManyToOne
-    private Booking booking;
+    @OneToMany(mappedBy = "bookings")
+    private List<Booking> booking;
 
     public Guest() {
     }
@@ -47,5 +49,13 @@ public class Guest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Booking> getBooking() {
+        return booking;
+    }
+
+    public void setBooking(List<Booking> booking) {
+        this.booking = booking;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.flimchos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,6 +23,7 @@ public class Booking {
     private int guests;
     private int guestId;
     private int restaurantId;
+
 
 
     public Booking() {
@@ -82,5 +84,6 @@ public class Booking {
     public void setRestaurantId(int restaurant) {
         this.restaurantId = restaurant;
     }
+
 
 }
