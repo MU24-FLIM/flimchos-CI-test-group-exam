@@ -6,6 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Table(name= "restaurants")
 @Entity
 public class Restaurant {
 
@@ -14,15 +18,18 @@ public class Restaurant {
     private Long id;
     private String email;
     private String city;
-    //private int bookingId;
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Booking> bookings = new ArrayList<>();
 
     public Restaurant() {
     }
 
-    public Restaurant(Long id, String email, String city) {
+    public Restaurant(Long id, String email, String city, List<Booking> bookings) {
         this.id = id;
         this.email = email;
         this.city = city;
+        this.bookings = bookings;
+
     }
 
     public Long getId() {
@@ -49,11 +56,11 @@ public class Restaurant {
         this.city = city;
     }
 
-//    public int getBookingId() {
-//        return bookingId;
-//    }
-//
-//    public void setBookingId(int bookingId) {
-//        this.bookingId = bookingId;
-//    }
+    public List<Booking> getBookings() {
+        return bookings;
+    }
+
+    public void setBookings(List<Booking> bookings) {
+        this.bookings = bookings;
+    }
 }
