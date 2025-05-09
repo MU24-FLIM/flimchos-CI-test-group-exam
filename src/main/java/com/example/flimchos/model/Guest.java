@@ -1,9 +1,11 @@
 package com.example.flimchos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
 
+@Table(name = "guest")
 @Entity
 public class Guest {
 
@@ -15,7 +17,8 @@ public class Guest {
 
     private String email;
 
-    @OneToMany(mappedBy = "bookings")
+    @OneToMany(mappedBy = "guest")
+    @JsonIgnore
     private List<Booking> booking;
 
     public Guest() {
