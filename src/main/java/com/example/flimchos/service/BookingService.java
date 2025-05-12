@@ -1,5 +1,8 @@
 package com.example.flimchos.service;
 
+import com.example.flimchos.dto.BookingCreationDTO;
+import com.example.flimchos.dto.BookingDTO;
+import com.example.flimchos.mapper.BookingMapper;
 import com.example.flimchos.model.Booking;
 import com.example.flimchos.model.Guest;
 import com.example.flimchos.model.Restaurant;
@@ -25,17 +28,25 @@ public class BookingService {
     }
 
     //Create
-    public Booking createBooking(Booking booking, Long restaurantId, Long guestId){
-        Restaurant restaurant = restaurantRepository.findById(restaurantId).orElseThrow(EntityNotFoundException::new);
-        Guest guest = guestRepository.findById(guestId).orElseThrow(EntityNotFoundException::new);
-        booking.setGuest(guest);
+    public BookingDTO createBooking(BookingCreationDTO bookingCreationDTO){
+        Restaurant restaurant = restaurantRepository.findById(bookingCreationDTO.getRestaurantId()).orElseThrow(EntityNotFoundException::new);
+        Guest guest = guestRepository.findById(bookingCreationDTO.getGuestId()).orElseThrow(EntityNotFoundException::new);
+        Booking booking = BookingMapper.INSTANCE.bookingCreationDTOToBooking(bookingCreationDTO);
         booking.setRestaurant(restaurant);
-        return bookingRepository.save(booking);
+        booking.setGuest(guest);
+
+        bookingRepository.save(booking);
+        return BookingMapper.INSTANCE.bookingToBookingDTO(booking);
     }
 
     //Read
-    public Booking getBookingById(Long id){
-        return bookingRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    public List<Booking> getAllBookings(){
+        return bookingRepository.findAll();
+    }
+
+    public BookingDTO getBookingById(Long id){
+        Booking booking = bookingRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return BookingMapper.INSTANCE.bookingToBookingDTO(booking);
     }
 
     public List<Booking> getBookingsByGuestId(Long id){
@@ -44,10 +55,6 @@ public class BookingService {
 
     public List<Booking> getBookingsByRestaurantId(Long id){
         return bookingRepository.findAllByRestaurantId(id);
-    }
-
-    public List<Booking> getAllBookings(){
-        return bookingRepository.findAll();
     }
 
 }
