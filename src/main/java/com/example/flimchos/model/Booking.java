@@ -28,9 +28,13 @@ public class Booking {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-
-
     public Booking() {
+    }
+
+    public Booking(LocalDate date, LocalTime time, int guests) {
+        this.date = date;
+        this.time = time;
+        this.guests = guests;
     }
 
     public Booking(LocalDate date, LocalTime time, int guests, Guest guest, Restaurant restaurant) {
