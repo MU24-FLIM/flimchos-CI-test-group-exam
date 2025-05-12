@@ -29,6 +29,11 @@ public class Guest {
     public Guest() {
     }
 
+    public Guest(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public Guest(Long id, String name, String email) {
         this.id = id;
         this.name = name;
