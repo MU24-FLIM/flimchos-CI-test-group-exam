@@ -2,15 +2,6 @@ name: Guest workflow
 on: [push, pull_request]
 
 jobs:
-  exempel with test echo:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: print push
-        run: echo "push detected"
-
-
   on push:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
