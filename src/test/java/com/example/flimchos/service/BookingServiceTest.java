@@ -40,8 +40,8 @@ class BookingServiceTest {
     @Test
     public void testCreateBooking() {
         //Arrange
-        Guest guest = new Guest(1L, "Madde", "<EMAIL>");
-        Restaurant restaurant = new Restaurant(1L, "<EMAIL>", "Linda", new ArrayList<>());
+        Guest guest = new Guest("Madde", "<EMAIL>");
+        Restaurant restaurant = new Restaurant("<EMAIL>", "Linda", new ArrayList<>());
         LocalDate date = LocalDate.of(2025,11,01);
         LocalTime time = LocalTime.of(15,00);
         Booking booking = new Booking(date, time, 5, guest, restaurant);
