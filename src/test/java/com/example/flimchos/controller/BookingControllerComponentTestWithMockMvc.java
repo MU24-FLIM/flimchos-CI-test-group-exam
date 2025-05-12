@@ -62,7 +62,7 @@ class BookingControllerComponentTestWithMockMvc {
                     .content(objectMapper.writeValueAsString(guest)))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(post("http://localhost:8080/booking/1/1")
+        mockMvc.perform(post("http://localhost:8080/bookings/1/1")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(booking)))
                 .andExpect(status().isOk())
