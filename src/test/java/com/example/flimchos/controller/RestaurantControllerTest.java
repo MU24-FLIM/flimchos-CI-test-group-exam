@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -47,16 +45,19 @@ class RestaurantControllerTest {
 
         // Act & Assert
         mockMvc.perform(get("/restaurants/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email").value("flimchos_teststan@example.com"))
-                .andExpect(jsonPath("$.city").value("Teststan"));
+                .andExpect(status().isOk()) //Verifierar HTTP-status
+                .andExpect(jsonPath("$.email").value("flimchos_teststan@example.com")) // Verifierar e-post i respons
+                .andExpect(jsonPath("$.city").value("Teststan")); // Verifierar city i respons
     }
     @Test
     public void getRestaurantByIdNotFound() throws Exception {
+        // Arrange
+        // Mockar restaurantRepository så att findById returnerar en tom Optional när den anropas med ID 999L.
         when(restaurantRepository.findById(999L)).thenReturn(Optional.empty());
 
+        // Act & assert
         mockMvc.perform(get("/restaurants/999"))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound()); // Verifierar att HTTP-statusen är 404 (Not Found)
     }
 
 }
