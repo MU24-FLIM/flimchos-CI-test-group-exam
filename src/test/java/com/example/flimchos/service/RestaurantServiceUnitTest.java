@@ -3,6 +3,7 @@ package com.example.flimchos.service;
 import com.example.flimchos.model.Booking;
 import com.example.flimchos.model.Restaurant;
 import com.example.flimchos.repository.RestaurantRepository;
+import org.junit.jupiter.api.Disabled;
 import org.mockito.Mock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 
 class RestaurantServiceUnitTest {
 

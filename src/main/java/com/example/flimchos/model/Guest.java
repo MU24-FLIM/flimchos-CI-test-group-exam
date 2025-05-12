@@ -1,10 +1,11 @@
 package com.example.flimchos.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
+import java.util.List;
+
+@Table(name = "guest")
 @Entity
 public class Guest {
 
@@ -15,6 +16,10 @@ public class Guest {
     private String name;
 
     private String email;
+
+    @OneToMany(mappedBy = "guest")
+    @JsonIgnore
+    private List<Booking> booking;
 
     public Guest() {
     }
@@ -47,5 +52,13 @@ public class Guest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Booking> getBooking() {
+        return booking;
+    }
+
+    public void setBooking(List<Booking> booking) {
+        this.booking = booking;
     }
 }
