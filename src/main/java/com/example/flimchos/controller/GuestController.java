@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/guest")
+@RequestMapping("/guests")
 public class GuestController {
 
     private final GuestService guestService;
