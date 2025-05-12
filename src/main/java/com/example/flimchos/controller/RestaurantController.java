@@ -30,6 +30,13 @@ public class RestaurantController {
    public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.findAll();
    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id) {
+        return restaurantRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Long id, @RequestBody Restaurant updatedRestaurant) {
         Restaurant restaurant = restaurantService.updateRestaurant(id, updatedRestaurant);
