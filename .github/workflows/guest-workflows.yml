@@ -23,7 +23,7 @@ jobs:
          MYSQL_USER: test_user
          MYSQL_PASSWORD: test_pass
          ports:
-           - 3306:3306
+          - 3306:3306
          options: >-
                   --health-cmd="mysqladmin ping --silent"  
                   --health-interval=10s
@@ -65,7 +65,7 @@ jobs:
           MYSQL_USER: test_user
           MYSQL_PASSWORD: test_pass
           ports:
-            - 3306:3306
+           - 3306:3306
           options: >-
             --health-cmd="mysqladmin ping --silent"  
             --health-interval=10s
