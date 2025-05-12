@@ -16,23 +16,23 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-       image: mysql:8.0
-       env:
-         MYSQL_DATABASE: test_db
-         MYSQL_ROOT_PASSWORD: root
-         MYSQL_USER: test_user
-         MYSQL_PASSWORD: test_pass
-         ports:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: test_db
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_pass
+        ports:
           - 3306:3306
-         options: >-
-                  --health-cmd="mysqladmin ping --silent"  
-                  --health-interval=10s
-                  --health-timeout=5s
-                  --health-retries=5
+        options: >-
+          --health-cmd="mysqladmin ping --silent"  
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
     env:
-    DB_URL: jdbc:mysql://localhost:3306/test_db
-    DB_USER: test_user
-    DB_PASSWORD: test_pass
+     DB_URL: jdbc:mysql://localhost:3306/test_db
+     DB_USER: test_user
+     DB_PASSWORD: test_pass
     steps:
       - name: Print message on push
         run: echo "Push detected"
@@ -44,11 +44,11 @@ jobs:
           distribution: 'temurin'
       - name: Wait for MYSQL image to be ready
         run: |
-            echo "Waiting for MySQL..."
-            for i in {1..30}; do
-            nc -z localhost 3306 && echo "MySQL is running" && break  
-            sleep 2
-            done
+          echo "Waiting for MySQL..."
+          for i in {1..30}; do
+          nc -z localhost 3306 && echo "MySQL is running" && break  
+          sleep 2
+          done
       - name: Build and test
         run: mvn clean verify
 
@@ -64,17 +64,17 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_USER: test_user
           MYSQL_PASSWORD: test_pass
-          ports:
-           - 3306:3306
-          options: >-
-            --health-cmd="mysqladmin ping --silent"  
-            --health-interval=10s
-            --health-timeout=5s
-            --health-retries=5
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
     env:
-    DB_URL: jdbc:mysql://localhost:3306/test_db
-    DB_USER: test_user
-    DB_PASSWORD: test_pass
+     DB_URL: jdbc:mysql://localhost:3306/test_db
+     DB_USER: test_user
+     DB_PASSWORD: test_pass
     steps:
       - name: Print message on pull_request
         run: echo "Pull request detected"
