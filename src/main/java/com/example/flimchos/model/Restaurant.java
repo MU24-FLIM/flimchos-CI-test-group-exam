@@ -29,11 +29,17 @@ public class Restaurant {
     public Restaurant() {
     }
 
+    public Restaurant(Long id, String email, String city, List<Booking> bookings) {
+        this.id = id;
+        this.email = email;
+        this.city = city;
+        this.bookings = bookings;
+    }
+
     public Restaurant(String email, String city, List<Booking> bookings) {
         this.email = email;
         this.city = city;
         this.bookings = bookings;
-
     }
 
     public Long getId() {
