@@ -1,14 +1,95 @@
-name: Guest working
-on: [pull_request]
+name: Guest workflow
+on: [push, pull_request]
 
 jobs:
-  test-job:
+  exempel with test echo:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: print push
+        run: echo "push detected"
+
+
+  on push:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+       image: mysql:8.0
+       env:
+         MYSQL_DATABASE: test_db
+         MYSQL_ROOT_PASSWORD: root
+         MYSQL_USER: test_user
+         MYSQL_PASSWORD: test_pass
+         ports:
+           - 3306:3306
+         options: >-
+                  --health-cmd="mysqladmin ping --silent"  
+                  --health-interval=10s
+                  --health-timeout=5s
+                  --health-retries=5
+    env:
+    DB_URL: jdbc:mysql://localhost:3306/test_db
+    DB_USER: test_user
+    DB_PASSWORD: test_pass
+    steps:
+      - name: Print message on push
+        run: echo "Push detected"
+      - uses: actions/checkout@v4
+      - name: Setup java
+        uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
           java-version: '21'
-      - name: maven specific test
-        run: mvn -e -Dtest=com.example.flimchos.service.GuestServiceTest test
+          distribution: 'temurin'
+      - name: Wait for MYSQL image to be ready
+        run: |
+            echo "Waiting for MySQL..."
+            for i in {1..30}; do
+            nc -z localhost 3306 && echo "MySQL is running" && break  
+            sleep 2
+            done
+      - name: Build and test
+        run: mvn clean verify
+
+
+  on pull_request:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: test_db
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_pass
+          ports:
+            - 3306:3306
+          options: >-
+            --health-cmd="mysqladmin ping --silent"  
+            --health-interval=10s
+            --health-timeout=5s
+            --health-retries=5
+    env:
+    DB_URL: jdbc:mysql://localhost:3306/test_db
+    DB_USER: test_user
+    DB_PASSWORD: test_pass
+    steps:
+      - name: Print message on pull_request
+        run: echo "Pull request detected"
+      - uses: actions/checkout@v4
+      - name: Setup java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Wait for MYSQL image to be ready
+        run: |
+          echo "Waiting for MySQL..."
+          for i in {1..30}; do
+          nc -z localhost 3306 && echo "MySQL is running" && break  
+          sleep 2
+          done
+      - name: Build and test
+        run: mvn clean verify
