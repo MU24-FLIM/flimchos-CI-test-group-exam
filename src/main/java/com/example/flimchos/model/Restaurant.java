@@ -1,5 +1,7 @@
 package com.example.flimchos.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +13,9 @@ import java.util.List;
 
 @Table(name= "restaurants")
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Restaurant {
 
     @Id
@@ -24,8 +29,7 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(Long id, String email, String city, List<Booking> bookings) {
-        this.id = id;
+    public Restaurant(String email, String city, List<Booking> bookings) {
         this.email = email;
         this.city = city;
         this.bookings = bookings;

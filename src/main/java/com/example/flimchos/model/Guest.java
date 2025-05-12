@@ -1,12 +1,17 @@
 package com.example.flimchos.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Table(name = "guest")
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Guest {
 
     @Id
@@ -24,8 +29,7 @@ public class Guest {
     public Guest() {
     }
 
-    public Guest(Long id, String name, String email) {
-        this.id = id;
+    public Guest(String name, String email) {
         this.name = name;
         this.email = email;
     }
