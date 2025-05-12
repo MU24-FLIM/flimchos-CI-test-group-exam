@@ -2,7 +2,7 @@ name: Guest workflow
 on: [push, pull_request]
 
 jobs:
-  on push:
+  on-push-action:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     services:
@@ -44,7 +44,7 @@ jobs:
         run: mvn clean verify
 
 
-  on pull_request:
+  on-pull_request-action:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     services:
