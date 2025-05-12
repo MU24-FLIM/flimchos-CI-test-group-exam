@@ -24,6 +24,7 @@ public class Restaurant {
     private String email;
     private String city;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+
     private List<Booking> bookings = new ArrayList<>();
 
     public Restaurant() {

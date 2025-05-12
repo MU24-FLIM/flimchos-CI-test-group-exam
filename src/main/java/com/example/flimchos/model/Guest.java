@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+
 @Table(name = "guest")
 @Entity
 @JsonIdentityInfo(
@@ -23,7 +24,6 @@ public class Guest {
     private String email;
 
     @OneToMany(mappedBy = "guest")
-    @JsonIgnore
     private List<Booking> booking;
 
     public Guest() {
