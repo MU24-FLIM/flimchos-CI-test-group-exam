@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 //INTEGRATION-TEST
 
-@ActiveProfiles("test")
+@ActiveProfiles("test") //test databasen, som ligger i application-test.properties
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class GuestControllerIntegrationTest {
 
@@ -24,16 +24,19 @@ class GuestControllerIntegrationTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Test
+    @Test //ett test som kollar kontakten mellan databas och skapa en gäst
     public void testCreateAndGetGuestByHttp(){
+        //Arrange
         Guest guest = new Guest(null, "Madde", "madde@email.com");
 
+        //Act
         ResponseEntity<Guest> postResponse = restTemplate.postForEntity("http://localhost:" + port + "/guests", guest, Guest.class);
 
         Long guestId = postResponse.getBody().getId();
 
         ResponseEntity<Guest> getResponse = restTemplate.getForEntity("http://localhost:" + port + "/guests/" + guestId, Guest.class);
 
+        //Assert
         assertEquals("Madde", getResponse.getBody().getName());
         assertEquals("madde@email.com", getResponse.getBody().getEmail());
     }
