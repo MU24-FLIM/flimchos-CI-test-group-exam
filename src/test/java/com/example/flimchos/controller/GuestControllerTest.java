@@ -36,11 +36,13 @@ class GuestControllerTest {
     private GuestRepository guestRepo;
 
 
-    @Test
+    @Test //ett test som att hämta en gäst baserat på id:et
     public void testToGetGuestById() throws Exception{
+        //Arrange
         Guest guest = new Guest(1L, "Madde", "madde@email.com");
         when(guestRepo.findById(1L)).thenReturn(Optional.of(guest));
 
+        //Act + Assert
         mockMvc.perform(get("/guests/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.email").value("madde@email.com"));
