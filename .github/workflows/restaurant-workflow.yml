@@ -1,62 +1,88 @@
 name: Restaurant workflow
 on: [push, pull_request]
 jobs:
-  exempel:
-    if: github.event_name == 'pull_request'
+  on-push:
+    if: github.event_name == 'push' && github.triggering_actor == 'LindaMU24'
     runs-on: ubuntu-latest
-    steps:
-      - name: print PR success
-        uses: actions/checkout@v4
-        run: echo "pull request successful!"
-
-  print:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-latest
-    steps:
-      - name: print Push success
-        uses: actions/checkout@v4
-        run: echo "push detected"
-
-
-    name: setup mysql
     services:
       mysql:
-      image: mysql:8.0
-      env:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: test_db
-        MYSQL_USER: test_user
-        MYSQL_PASSWORD: test_pass
-      ports:
-        - 3306:3306
-      options: >-
-        --health-cmd="mysqladmin ping --silent"
-        --health-interval=10s
-        --health-timeout=5s
-        --health-retries=5
-
-
+        image: mysql:8.0
+        env:
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s  
+          --health-timeout=5s  
+          --health-retries=5
     env:
       DB_URL: jdbc:mysql://localhost:3306/test_db
       DB_USER: test_user
-      DB_PASSWORD: test_pass
-
-      steps:
-        - uses: actions/checkout@v4
-
-        - name: setup java
-          uses: actions/setup-java@v4
-          with:
-            java-version: '21'
-            distribution: 'temurin'
-
-        - name: Wait for MYSQL image to be ready
-          run: |
-            echo "Waiting for MySQL..."
-            for i in {1..30}; do
-            nc -z localhost 3306 && echo "MySQL is running" && break
-            sleep 2
-            done
-
-        - name: Build and test
-          run: mvn clean verify
+      DB_PASSWORD: test_password
+    steps:
+      - name: Print Message
+        run: echo 'Push from Linda detected!'
+      - uses: actions/checkout@v4
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Wait for MySQL image to be ready
+        run: |
+          echo "Waiting for MySQL..."
+          for i in {1..30}; do
+          nc -z localhost 3306 && echo "MySQL is ready and running" && break
+          sleep 2
+          done
+      - name: Maven build and test
+        run: mvn clean verify
+      - name: Run tests with Maven
+        run: mvn -e test
+  on-pull_request:
+    if: github.event_name == 'pull_request' && github.base_ref == 'Restaurant'
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_USER: test_user
+          MYSQL_PASSWORD: test_password
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s  
+          --health-timeout=5s  
+          --health-retries=5
+    env:
+      DB_URL: jdbc:mysql://localhost:3306/test_db
+      DB_USER: test_user
+      DB_PASSWORD: test_password
+    steps:
+      - name: Print Message on Pull Request
+        run: echo 'Pull request on Restaurant detected!'
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Wait for MySQL image to be ready
+        run: |
+          echo "Waiting for MySQL..."
+          for i in {1..30}; do
+          nc -z localhost 3306 && echo "MySQL is ready and running" && break
+          sleep 2
+          done
+      - name: Maven build and test
+        run: mvn clean verify
+      - name: Run tests with Maven
+        run: mvn -e test

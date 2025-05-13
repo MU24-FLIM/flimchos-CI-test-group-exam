@@ -1,6 +1,8 @@
 package com.example.flimchos.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -8,6 +10,9 @@ import java.time.LocalTime;
 
 @Table(name = "bookings")
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Booking {
 
     @Id
@@ -23,9 +28,13 @@ public class Booking {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-
-
     public Booking() {
+    }
+
+    public Booking(LocalDate date, LocalTime time, int guests) {
+        this.date = date;
+        this.time = time;
+        this.guests = guests;
     }
 
     public Booking(LocalDate date, LocalTime time, int guests, Guest guest, Restaurant restaurant) {
