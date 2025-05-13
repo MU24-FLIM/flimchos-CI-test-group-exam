@@ -27,7 +27,7 @@ public class BookingController {
 
     //Read
     @GetMapping
-    public ResponseEntity<List<Booking>> getAllBookings() {
+    public ResponseEntity<List<BookingDTO>> getAllBookings() {
         return ResponseEntity.ok(bookingService.getAllBookings());
     }
 
@@ -37,12 +37,12 @@ public class BookingController {
     }
 
     @GetMapping("/restaurant/{restaurantId}")
-    public ResponseEntity<List<Booking>> getBookingsByRestaurantID(@PathVariable Long restaurantId) {
+    public ResponseEntity<List<BookingDTO>> getBookingsByRestaurantID(@PathVariable Long restaurantId) {
         return ResponseEntity.ok(bookingService.getBookingsByRestaurantId(restaurantId));
     }
 
     @GetMapping("/guest/{guestId}")
-    public ResponseEntity<List<Booking>> getBookingsByGuestId(@PathVariable Long guestId) {
+    public ResponseEntity<List<BookingDTO>> getBookingsByGuestId(@PathVariable Long guestId) {
         return ResponseEntity.ok(bookingService.getBookingsByGuestId(guestId));
     }
 
