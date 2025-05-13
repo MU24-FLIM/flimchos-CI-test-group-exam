@@ -45,7 +45,7 @@ jobs:
 
 
   on-pull_request-action:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && github.triggering_actor == 'madeleineMU24'
     runs-on: ubuntu-latest
     services:
       mysql:
