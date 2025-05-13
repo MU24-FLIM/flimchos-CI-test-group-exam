@@ -5,11 +5,21 @@ import java.time.LocalTime;
 
 public class BookingDTO {
 
+    private Long id;
     private LocalDate date;
     private LocalTime time;
     private int guests;
     private String guestName;
     private String restaurantCity;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public LocalDate getDate() {
         return date;

@@ -14,6 +14,7 @@ public interface BookingMapper {
 
     @Mapping(source = "guest.name", target = "guestName")
     @Mapping(source = "restaurant.city", target = "restaurantCity")
+    @Mapping(source = "booking.id", target = "id")
     BookingDTO bookingToBookingDTO(Booking booking);
 
     Booking bookingCreationDTOToBooking(BookingCreationDTO bookingCreationDTO);
