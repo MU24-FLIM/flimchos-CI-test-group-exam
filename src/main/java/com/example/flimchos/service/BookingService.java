@@ -13,6 +13,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -35,13 +36,13 @@ public class BookingService {
         booking.setRestaurant(restaurant);
         booking.setGuest(guest);
 
-        bookingRepository.save(booking);
-        return BookingMapper.INSTANCE.bookingToBookingDTO(booking);
+        return BookingMapper.INSTANCE.bookingToBookingDTO(bookingRepository.save(booking));
     }
 
     //Read
-    public List<Booking> getAllBookings(){
-        return bookingRepository.findAll();
+    public List<BookingDTO> getAllBookings(){
+        List<Booking> bookings = bookingRepository.findAll();
+        return bookings.stream().map(BookingMapper.INSTANCE::bookingToBookingDTO).collect(Collectors.toList());
     }
 
     public BookingDTO getBookingById(Long id){
@@ -49,12 +50,14 @@ public class BookingService {
         return BookingMapper.INSTANCE.bookingToBookingDTO(booking);
     }
 
-    public List<Booking> getBookingsByGuestId(Long id){
-        return bookingRepository.findAllByGuestId(id);
+    public List<BookingDTO> getBookingsByGuestId(Long id){
+        List<Booking> bookings = bookingRepository.findAllByGuestId(id);
+        return bookings.stream().map(BookingMapper.INSTANCE::bookingToBookingDTO).collect(Collectors.toList());
     }
 
-    public List<Booking> getBookingsByRestaurantId(Long id){
-        return bookingRepository.findAllByRestaurantId(id);
+    public List<BookingDTO> getBookingsByRestaurantId(Long id){
+        List<Booking> bookings = bookingRepository.findAllByRestaurantId(id);
+        return bookings.stream().map(BookingMapper.INSTANCE::bookingToBookingDTO).collect(Collectors.toList());
     }
 
 }

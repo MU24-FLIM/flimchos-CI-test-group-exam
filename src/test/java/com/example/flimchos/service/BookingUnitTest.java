@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ActiveProfiles("test")
@@ -42,18 +43,18 @@ class BookingUnitTest {
     @Test
     public void testCreateBooking() {
         //Arrange
-        Guest guest = new Guest("Madde", "<EMAIL>");
-        Restaurant restaurant = new Restaurant("<EMAIL>", "Linda", new ArrayList<>());
+        Guest guest = new Guest(1L, "Madde", "<EMAIL>");
+        Restaurant restaurant = new Restaurant(1L, "<EMAIL>", "Linda", new ArrayList<>());
         LocalDate date = LocalDate.of(2025,11,01);
         LocalTime time = LocalTime.of(15,00);
-        BookingCreationDTO bookingDTO = new BookingCreationDTO(date, time, 5, 1L, 1L);
-        Booking booking = BookingMapper.INSTANCE.bookingCreationDTOToBooking(bookingDTO);
+        BookingCreationDTO bookingCreationDTO = new BookingCreationDTO(date, time, 5, 1L, 1L);
+        Booking booking = new Booking(date, time, 5, guest, restaurant);
         when(bookingRepository.save(any())).thenReturn(booking);
         when(restaurantRepository.findById(any())).thenReturn(Optional.of(restaurant));
         when(guestRepository.findById(any())).thenReturn(Optional.of(guest));
 
         //Act
-        BookingDTO response = bookingService.createBooking(bookingDTO);
+        BookingDTO response = bookingService.createBooking(bookingCreationDTO);
 
         //Assert
         assertEquals(date, response.getDate());
@@ -61,6 +62,7 @@ class BookingUnitTest {
         assertEquals(5, response.getGuests());
         assertEquals("Madde", response.getGuestName());
         assertEquals("Linda", response.getRestaurantCity());
+        verify(bookingRepository).save(any());
 
     }
 

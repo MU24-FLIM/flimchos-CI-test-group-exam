@@ -27,7 +27,7 @@ class BookingIntegrationTest {
     private int port;
 
     @Autowired
-    private TestRestTemplate testRestTemplate;;
+    private TestRestTemplate testRestTemplate;
 
     @Test
     void testCreateBookingShouldReturnStatusOkAndBookingDTO() {
