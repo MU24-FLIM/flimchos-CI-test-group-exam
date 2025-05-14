@@ -3,7 +3,6 @@ package com.example.flimchos.controller;
 import com.example.flimchos.model.Restaurant;
 import com.example.flimchos.repository.RestaurantRepository;
 import com.example.flimchos.service.RestaurantService;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,32 +24,17 @@ public class RestaurantController {
 
     }
 
-    //
-//    @PostMapping
-//    public Restaurant createNewRestaurant (@RequestBody Restaurant restaurant) {
-//        return restaurantService.createRestaurant(restaurant);
-//    }
     @PostMapping
     public ResponseEntity<Restaurant> createNewRestaurant(@RequestBody Restaurant restaurant) {
         Restaurant result = restaurantService.createRestaurant(restaurant);
         return ResponseEntity.ok(result);
     }
 
-    //   @GetMapping
-//   public List<Restaurant> getAllRestaurants() {
-//        return restaurantRepository.findAll();
-//   }
+
     @GetMapping
     public ResponseEntity<List<Restaurant>> getAllRestaurants() {
         return ResponseEntity.ok(restaurantService.showAllRestaurants());
     }
-
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id) {
-//        return restaurantRepository.findById(id)
-//                .map(ResponseEntity::ok)
-//                .orElseGet(() -> ResponseEntity.notFound().build());
-//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getRestaurantById(@PathVariable Long id) {
