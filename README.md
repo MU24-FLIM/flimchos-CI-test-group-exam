@@ -13,9 +13,10 @@ for a specific restaurant, guest or booking and see if there is any connection b
 
 ### Setting up environmental variables
 
-Set up environmental variables for your database. Specify a separate database for the tests to keep the production data 
-and test data isolated from each other. These environmental variables are used in both `application.properties` and 
-`application-test.properties`, where the latter is used as active profile in the tests. 
+Set up environmental variables for your database. Specify a separate database for the tests to keep the production data
+and test data isolated from each other. These environmental variables are used in both `application.properties` and
+`application-test.properties`, where the latter is used as active profile in the tests. The standard profile uses 
+`data.sql` to preload the database with some guests and restaurants.
 
 | Name          | 
 |---------------|
@@ -34,7 +35,7 @@ Interact with the REST API using HTTP requests.
 ### Booking ("/bookings")
 
 When making a POST request, a BookingCreationDTO is passed as request body.
-Syntax for creating a booking
+Syntax for creating/updating a booking
 
 ````json
 {
@@ -53,7 +54,7 @@ Syntax for creating a booking
 |         | Get a booking by ID           | `/{id}`                      | `BookingDTO`       |
 |         | Get bookings by restaurant ID | `/restaurant/{restaurantId}` | `List<BookingDTO>` |
 |         | Get bookings by guest ID      | `/guest/{guestId}`           | `List<BookingDTO>` |
-
+| PUT     | Update booking by ID          | `/{id}`                      | `BookingDTO`       |
 
 ----
 
@@ -63,8 +64,8 @@ Syntax for creating a guest
 
 ````json
 {
-"name": "Madde",
-"email": "madde@email.com"
+  "name": "Madde",
+  "email": "madde@email.com"
 }
 ````
 
@@ -76,14 +77,16 @@ Syntax for creating a guest
 | PUT     | Update email on guest with id | `/{id}`  | `Guest` |
 
 ----
+
 ### Restaurant ("/restaurants")
 
 ````json
 {
-"email": "flimchos_lillstan@example.com",
-"city": "Lillstan"
+  "email": "flimchos_lillstan@example.com",
+  "city": "Lillstan"
 }
 ````
+
 | Command | Operation                 | Endpoint | Returns      |
 |---------|---------------------------|----------|--------------|
 | POST    | Create a new Restaurant   |          |              |
