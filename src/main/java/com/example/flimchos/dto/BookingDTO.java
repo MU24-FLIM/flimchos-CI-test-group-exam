@@ -12,6 +12,13 @@ public class BookingDTO {
     private String guestName;
     private String restaurantCity;
 
+    public BookingDTO(LocalDate date, LocalTime time, int guests, String guestName, String restaurantCity) {
+        this.date = date;
+        this.time = time;
+        this.guests = guests;
+        this.guestName = guestName;
+        this.restaurantCity = restaurantCity;
+    }
 
     public Long getId() {
         return id;
