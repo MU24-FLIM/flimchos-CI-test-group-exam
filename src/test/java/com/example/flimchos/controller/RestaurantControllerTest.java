@@ -41,7 +41,10 @@ class RestaurantControllerTest {
         //arrange
         List<Booking> bookings = new ArrayList<>();
         Restaurant restaurant = new Restaurant(1L,"flimchos_teststan@example.com", "Teststan", bookings);
-        when(restaurantRepository.findById(1L)).thenReturn(Optional.of(restaurant));
+        // Mockar restaurantService så att getRestaurantById returnerar en Optional innehållande
+        // en restaurang när den anropas med ID 1L. Detta simulerar situationen där en
+        // restaurang med detta ID hittas i databasen.
+        when(restaurantService.getRestaurantById(1L)).thenReturn(Optional.of(restaurant));
 
         // Act & Assert
         mockMvc.perform(get("/restaurants/1"))
@@ -52,8 +55,9 @@ class RestaurantControllerTest {
     @Test
     public void getRestaurantByIdNotFound() throws Exception {
         // Arrange
-        // Mockar restaurantRepository så att findById returnerar en tom Optional när den anropas med ID 999L.
-        when(restaurantRepository.findById(999L)).thenReturn(Optional.empty());
+        // Mockar restaurantService så att getRestaurantById returnerar en tom Optional
+        // när den anropas med ID 999L. Detta simulerar att ingen restaurang hittas med detta ID.
+        when(restaurantService.getRestaurantById(999L)).thenReturn(Optional.empty());
 
         // Act & assert
         mockMvc.perform(get("/restaurants/999"))
