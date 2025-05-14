@@ -32,7 +32,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-          cache: 'maven'
+          cache: 'maven' # Cache for better performance
       - name: Wait for MySQL image to be ready
         run: |
           echo "Waiting for MySQL..."
