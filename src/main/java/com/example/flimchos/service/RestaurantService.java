@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RestaurantService {
@@ -25,15 +26,15 @@ public Restaurant createRestaurant(Restaurant restaurant) {
 public List<Restaurant> showAllRestaurants() {
         return restaurantRepository.findAll();
 }
-public Restaurant getRestaurantById(Long id) {
-        return restaurantRepository.findById(id).orElse(null);
-}
-    public Restaurant updateRestaurant(Long id, Restaurant updatedRestaurant) {
-        return restaurantRepository.findById((long) id).map(restaurant -> {
+    public Optional<Restaurant> getRestaurantById(Long id) {
+        return restaurantRepository.findById(id);
+    }
+    public Optional<Restaurant> updateRestaurant(Long id, Restaurant updatedRestaurant) {
+        return restaurantRepository.findById(id).map(restaurant -> {
             restaurant.setEmail(updatedRestaurant.getEmail());
             restaurant.setCity(updatedRestaurant.getCity());
             return restaurantRepository.save(restaurant);
-        }).orElse(null);
+        });
     }
     public void deleteRestaurant(Long id) {
         restaurantRepository.deleteById(id);
