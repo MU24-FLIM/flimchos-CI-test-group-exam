@@ -60,4 +60,17 @@ public class BookingService {
         return bookings.stream().map(BookingMapper.INSTANCE::bookingToBookingDTO).collect(Collectors.toList());
     }
 
+    //Update
+    public BookingDTO updateBookingByID(BookingCreationDTO bookingCreationDTO, Long id){
+        Restaurant restaurant = restaurantRepository.findById(bookingCreationDTO.getRestaurantId()).orElseThrow(EntityNotFoundException::new);
+        Guest guest = guestRepository.findById(bookingCreationDTO.getGuestId()).orElseThrow(EntityNotFoundException::new);
+        Booking bookingToUpdate = bookingRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        bookingToUpdate.setRestaurant(restaurant);
+        bookingToUpdate.setGuest(guest);
+        bookingToUpdate.setTime(bookingCreationDTO.getTime());
+        bookingToUpdate.setDate(bookingCreationDTO.getDate());
+
+        return BookingMapper.INSTANCE.bookingToBookingDTO(bookingRepository.save(bookingToUpdate));
+    }
+
 }
