@@ -32,6 +32,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
+          cache: 'maven'
       - name: Wait for MySQL image to be ready
         run: |
           echo "Waiting for MySQL..."
@@ -39,10 +40,8 @@ jobs:
           nc -z localhost 3306 && echo "MySQL is ready and running" && break
           sleep 2
           done
-      - name: Maven build and test
-        run: mvn clean verify
       - name: Run tests with Maven
-        run: mvn -e test
+        run: mvn --errors test
   on-pull_request:
     if: github.event_name == 'pull_request' && github.base_ref == 'booking-branch'
     runs-on: ubuntu-latest
@@ -82,10 +81,5 @@ jobs:
           nc -z localhost 3306 && echo "MySQL is ready and running" && break
           sleep 2
           done
-      - name: Maven build and test
-        run: mvn clean verify
-      - name: Run tests with Maven
-        run: mvn -e test
-
-
-
+      - name: Maven test and install
+        run: mvn --debug clean install
