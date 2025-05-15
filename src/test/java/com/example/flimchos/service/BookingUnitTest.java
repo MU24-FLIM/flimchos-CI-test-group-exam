@@ -70,9 +70,11 @@ class BookingUnitTest {
 
     }
 
-    //A negative test to verify that an exception is thrown if the booking contains an invalid restaurant ID.
-    //Since the ID is checked in the first operation of the service method only the restaurant response needs to be
-    //mocked in this case.
+    /*
+    A negative test to verify that an exception is thrown if the booking contains an invalid restaurant ID.
+    Since the ID is checked in the first operation of the service method only the restaurant response needs to be
+    mocked in this case.
+    */
     @Test
     public void testCreateBookingWithInvalidRestaurantIdThrowsEntityNotFoundException() {
         //Arrange
@@ -88,9 +90,11 @@ class BookingUnitTest {
 
     }
 
-    //A negative test to verify that an exception is thrown if the booking contains an invalid guest ID.
-    //The guest ID is checked in the second operation of the service method, which is why a valid restaurant response
-    //needs to be mocked before, making sure that the restaurant ID is not throwing the exception.
+    /*
+    A negative test to verify that an exception is thrown if the booking contains an invalid guest ID.
+    The guest ID is checked in the second operation of the service method, which is why a valid restaurant response
+    needs to be mocked before, making sure that the restaurant ID is not throwing the exception.
+    */
     @Test
     public void testCreateBookingWithInvalidGuestIdThrowsEntityNotFoundException() {
         //Arrange
