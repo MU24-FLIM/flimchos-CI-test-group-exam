@@ -80,8 +80,10 @@ class BookingUnitTest {
         //Arrange
         LocalDate date = LocalDate.of(2025,11,1);
         LocalTime time = LocalTime.of(15, 0);
+        Restaurant restaurant = new Restaurant(1L, "<EMAIL>", "Lillstan", new ArrayList<>()); // A valid Restaurant object to fail the test
         BookingCreationDTO bookingCreationDTO = new BookingCreationDTO(date, time, 5, 1L, 1L);
-        when(restaurantRepository.findById(any())).thenReturn(Optional.empty()); // First operation  in service class
+        when(restaurantRepository.findById(any())).thenReturn(Optional.empty()); // Comment this line out to fail test
+//        when(restaurantRepository.findById(any())).thenReturn(Optional.of(restaurant)); // Uncomment this line to fail test
 
         //Act
 
@@ -100,13 +102,12 @@ class BookingUnitTest {
         //Arrange
         LocalDate date = LocalDate.of(2025,11,1);
         LocalTime time = LocalTime.of(15, 0);
-        Guest guest = new Guest(1L, "Madde", "<EMAIL>");
-
-        Restaurant restaurant = new Restaurant(1L, "<EMAIL>", "Linda", new ArrayList<>());
+        Guest guest = new Guest(1L, "Madde", "<EMAIL>"); // A valid Guest object to fail the test
+        Restaurant restaurant = new Restaurant(1L, "<EMAIL>", "Lillstan", new ArrayList<>());
         BookingCreationDTO bookingCreationDTO = new BookingCreationDTO(date, time, 5, 1L, 1L);
-        when(restaurantRepository.findById(any())).thenReturn(Optional.of(restaurant)); // First operation  in service class
-        when(guestRepository.findById(any())).thenReturn(Optional.empty()); // Second operation in service class (Comment this line out to check that the test can fail.)
-//        when(guestRepository.findById(any())).thenReturn(Optional.of(guest)); // Second operation in service class (Uncomment this line  to check that the test can fail.)
+        when(restaurantRepository.findById(any())).thenReturn(Optional.of(restaurant));
+        when(guestRepository.findById(any())).thenReturn(Optional.empty()); // Comment this line out to fail test
+//        when(guestRepository.findById(any())).thenReturn(Optional.of(guest)); // Uncomment this line to fail test
 
         //Act
 
