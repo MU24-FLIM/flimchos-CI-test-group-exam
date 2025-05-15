@@ -29,8 +29,10 @@ class BookingIntegrationTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
+    // This is an integration test using TestRestTemplate to make real HTTP requests. It tests all three separate entities
+    // of the app, creating objects and verifying the response.
     @Test
-    void testCreateBookingShouldReturnStatusOkAndBookingDTO() {
+    void testCreateBookingShouldReturnStatusOkAndBookingDTOWhenRestaurantAndGuestExists() {
         //Arrange
         Guest guest = new Guest("Madde", "madde@guest.flim");
         Restaurant restaurant = new Restaurant("info@flimchos.flim", "Storstan", new ArrayList<>());
