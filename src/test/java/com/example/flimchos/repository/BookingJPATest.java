@@ -28,6 +28,9 @@ class BookingJPATest {
     @Autowired
     private BookingRepository bookingRepository;
 
+    //Two JpaTests to test the connection between repository and database
+
+    //A test validating the save method, verifying that it returns what is expected.
     @Test
     public void testSaveBooking(){
         //Arrange
@@ -45,6 +48,8 @@ class BookingJPATest {
         assertEquals("Madde", savedBooking.getGuest().getName());
     }
 
+    //Testing that a Booking can be found by Restaurant ID. Using TestRestTemplate to save the Booking to the database,
+    //I make sure that only the fyndByRestaurantId method and not the save method is tested.
     @Test
     public void testFindBookingByRestaurantId(){
         //Arrange
