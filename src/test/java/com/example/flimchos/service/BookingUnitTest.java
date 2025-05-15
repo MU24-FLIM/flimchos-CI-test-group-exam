@@ -88,7 +88,9 @@ class BookingUnitTest {
         //Act
 
         //Assert
-        assertThrows(EntityNotFoundException.class, () -> bookingService.createBooking(bookingCreationDTO));
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> bookingService.createBooking(bookingCreationDTO));
+        assertEquals("Invalid Restaurant ID", exception.getMessage());
 
     }
 
@@ -112,7 +114,9 @@ class BookingUnitTest {
         //Act
 
         //Assert
-        assertThrows(EntityNotFoundException.class, () -> bookingService.createBooking(bookingCreationDTO), "Invalid guest ID");
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> bookingService.createBooking(bookingCreationDTO));
+        assertEquals("Invalid Guest ID", exception.getMessage());
 
     }
 
