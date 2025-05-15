@@ -41,7 +41,8 @@ class GuestServiceTest {
 
     @Test //test för att kolla att det går att radera utifrån id
     public void testToDeleteGuestById(){
-        //Arrange
+        //Arrange (doNothing, för att den inte ska göra något när den kallar på deleteById,
+        // eftersom den returnerar void kan man inte ha when direkt)
         doNothing().when(guestRepo).deleteById(1L);
 
         //Act
