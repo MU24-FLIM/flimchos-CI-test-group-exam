@@ -36,8 +36,8 @@ class BookingIntegrationTest {
         //Arrange
         Guest guest = new Guest("Madde", "madde@guest.flim");
         Restaurant restaurant = new Restaurant("info@flimchos.flim", "Storstan", new ArrayList<>());
-        LocalDate date = LocalDate.of(2025,11,01);
-        LocalTime time = LocalTime.of(15, 00);
+        LocalDate date = LocalDate.of(2025,11,1);
+        LocalTime time = LocalTime.of(15, 0);
         ResponseEntity<Guest> guestResponse = testRestTemplate.postForEntity("http://localhost:" + port + "/guests", guest, Guest.class);
         ResponseEntity<Restaurant> restaurantResponse = testRestTemplate.postForEntity("http://localhost:" + port + "/restaurants", restaurant, Restaurant.class);
         assertEquals(HttpStatusCode.valueOf(200), guestResponse.getStatusCode());
@@ -49,8 +49,8 @@ class BookingIntegrationTest {
 
         //Assert
         assertEquals(HttpStatusCode.valueOf(200), response.getStatusCode());
-        assertEquals(LocalDate.of(2025,11,01), response.getBody().getDate());
-        assertEquals(LocalTime.of(15, 00), response.getBody().getTime());
+        assertEquals(LocalDate.of(2025,11,1), response.getBody().getDate());
+        assertEquals(LocalTime.of(15, 0), response.getBody().getTime());
         assertEquals("Madde", response.getBody().getGuestName());
         assertEquals("Storstan", response.getBody().getRestaurantCity());
 
