@@ -1,12 +1,12 @@
 package com.example.flimchos.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.List;
 
+//kommentar för att kunna visa push och pull_request på github
 
 @Table(name = "guest")
 @Entity

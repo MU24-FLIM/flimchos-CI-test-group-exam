@@ -46,7 +46,7 @@ class RestaurantServiceUnitTest {
 
         // Act
         // Anropar metoden getRestaurantById med ID 1L och sparar resultatet.
-        Restaurant result = restaurantService.getRestaurantById(1L);
+        Restaurant result = restaurantService.getRestaurantById(1L).orElse(null);
 
         // Assert
         // Verifierar att e-postadressen i det returnerade Restaurant-objektet är korrekt.

@@ -4,10 +4,12 @@ import com.example.flimchos.model.Restaurant;
 import com.example.flimchos.repository.RestaurantRepository;
 import com.example.flimchos.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/restaurants")
@@ -23,32 +25,46 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public Restaurant createNewRestaurant (@RequestBody Restaurant restaurant) {
-        return restaurantService.createRestaurant(restaurant);
+    public ResponseEntity<Restaurant> createNewRestaurant(@RequestBody Restaurant restaurant) {
+        Restaurant result = restaurantService.createRestaurant(restaurant);
+        return ResponseEntity.ok(result);
     }
-   @GetMapping
-   public List<Restaurant> getAllRestaurants() {
-        return restaurantRepository.findAll();
-   }
+
+
+    @GetMapping
+    public ResponseEntity<List<Restaurant>> getAllRestaurants() {
+        return ResponseEntity.ok(restaurantService.showAllRestaurants());
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id) {
-        return restaurantRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> getRestaurantById(@PathVariable Long id) {
+        Optional<Restaurant> restaurant = restaurantService.getRestaurantById(id);
+        if (restaurant.isPresent()) {
+            return ResponseEntity.ok(restaurant.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Restaurant with id " + id + " not found");
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Long id, @RequestBody Restaurant updatedRestaurant) {
-        Restaurant restaurant = restaurantService.updateRestaurant(id, updatedRestaurant);
-        if (restaurant != null) {
-            return ResponseEntity.ok(restaurant);
+    public ResponseEntity<String> updateRestaurant(@PathVariable Long id, @RequestBody Restaurant updatedRestaurant) {
+        Optional<Restaurant> restaurant = restaurantService.updateRestaurant(id, updatedRestaurant);
+        if (restaurant.isPresent()) {
+            return ResponseEntity.ok("Restaurant with id " + id + " updated successfully");
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Restaurant with id " + id + " not found");
         }
     }
+
     @DeleteMapping("/{id}")
-    public void deleteRestaurant(@PathVariable Long id) {
-        restaurantService.deleteRestaurant(id);
+    public ResponseEntity<String> deleteRestaurant(@PathVariable Long id) {
+        Optional<Restaurant> restaurant = restaurantService.getRestaurantById(id);
+        if (restaurant.isPresent()) {
+            restaurantService.deleteRestaurant(id);
+            return ResponseEntity.ok("Restaurant with id " + id + " deleted successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Restaurant with id " + id + " not found");
+        }
     }
-   }
+}
 
