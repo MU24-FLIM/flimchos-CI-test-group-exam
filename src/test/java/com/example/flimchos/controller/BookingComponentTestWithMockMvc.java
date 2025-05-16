@@ -39,15 +39,19 @@ class BookingComponentTestWithMockMvc {
     private MockMvc mockMvc;
 
     @MockitoBean
+    private GuestRepository guestRepository;
+    @MockitoBean
+    private RestaurantRepository restaurantRepository;
+    @MockitoBean
     private BookingRepository bookingRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
-    @MockitoBean
-    private GuestRepository guestRepository;
-    @MockitoBean
-    private RestaurantRepository restaurantRepository;
 
+
+    //A component test for the controller-service interaction when creating a booking. Using mocked repositories to
+    // isolate the tests to controller-service. Since the restaurant and guest repositories are used in the booking
+    //service method, they need to be mocked as well.
     @Test
     public void testCreateBookingShouldReturnStatusOkAndBookingDTO() throws Exception {
         //Arrange
