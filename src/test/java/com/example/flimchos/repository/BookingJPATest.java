@@ -28,13 +28,16 @@ class BookingJPATest {
     @Autowired
     private BookingRepository bookingRepository;
 
+    //Two JpaTests to test the connection between repository and database
+
+    //A test validating the save method, verifying that it returns what is expected.
     @Test
     public void testSaveBooking(){
         //Arrange
         Restaurant restaurant = new Restaurant(1L, "lillstan@flimchos.com", "Lillstan", new ArrayList<>());
         Guest guest = new Guest(1L, "Madde", "madde@flimchos.com");
-        LocalDate date = LocalDate.of(2025,11,01);
-        LocalTime time = LocalTime.of(15,00);
+        LocalDate date = LocalDate.of(2025,11,1);
+        LocalTime time = LocalTime.of(15,0);
         Booking booking  = new Booking(date, time, 5, guest, restaurant);
 
         //Act
@@ -43,15 +46,19 @@ class BookingJPATest {
         //Assert
         assertEquals("Lillstan", savedBooking.getRestaurant().getCity());
         assertEquals("Madde", savedBooking.getGuest().getName());
+        assertEquals(LocalDate.of(2025,11,1), savedBooking.getDate());
+        assertEquals(LocalTime.of(15,0), savedBooking.getTime());
     }
 
+    //Testing that a Booking can be found by Restaurant ID. Using TestRestTemplate to save the Booking to the database,
+    //I make sure that only the fyndByRestaurantId method and not the save method is tested.
     @Test
     public void testFindBookingByRestaurantId(){
         //Arrange
         Restaurant restaurant = new Restaurant(1L, "Lillstan", "lillstan@flimchos.com", new ArrayList<>());
         Guest guest = new Guest(1L, "Madde", "madde@flimchos.com");
-        LocalDate date = LocalDate.of(2025,11,01);
-        LocalTime time = LocalTime.of(15,00);
+        LocalDate date = LocalDate.of(2025,11,1);
+        LocalTime time = LocalTime.of(15,0);
         Booking booking  = new Booking(date, time, 5, guest, restaurant);
         testEntityManager.persistAndFlush(booking);
 

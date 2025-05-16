@@ -40,6 +40,10 @@ class BookingUnitTest {
     @InjectMocks
     private BookingService bookingService;
 
+    //Three unit tests using Mockito to mock the repositories and inject them into the service class being tested.
+
+
+    //A positive test that verifies the excepted response when creating a valid booking.
     @Test
     public void testCreateBooking() {
         //Arrange
@@ -66,35 +70,53 @@ class BookingUnitTest {
 
     }
 
+    /*
+    A negative test to verify that an exception is thrown if the booking contains an invalid restaurant ID.
+    Since the ID is checked in the first operation of the service method only the restaurant response needs to be
+    mocked in this case.
+    */
     @Test
     public void testCreateBookingWithInvalidRestaurantIdThrowsEntityNotFoundException() {
         //Arrange
         LocalDate date = LocalDate.of(2025,11,1);
         LocalTime time = LocalTime.of(15, 0);
+        Restaurant restaurant = new Restaurant(1L, "<EMAIL>", "Lillstan", new ArrayList<>()); // A valid Restaurant object to fail the test
         BookingCreationDTO bookingCreationDTO = new BookingCreationDTO(date, time, 5, 1L, 1L);
-        when(restaurantRepository.findById(any())).thenReturn(Optional.empty()); // First operation  in service class
+        when(restaurantRepository.findById(any())).thenReturn(Optional.empty()); // Comment this line out to fail test
+//        when(restaurantRepository.findById(any())).thenReturn(Optional.of(restaurant)); // Uncomment this line to fail test
 
         //Act
 
         //Assert
-        assertThrows(EntityNotFoundException.class, () -> bookingService.createBooking(bookingCreationDTO));
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> bookingService.createBooking(bookingCreationDTO));
+        assertEquals("Invalid Restaurant ID", exception.getMessage());
 
     }
 
+    /*
+    A negative test to verify that an exception is thrown if the booking contains an invalid guest ID.
+    The guest ID is checked in the second operation of the service method, which is why a valid restaurant response
+    needs to be mocked before, making sure that the restaurant ID is not throwing the exception.
+    */
     @Test
     public void testCreateBookingWithInvalidGuestIdThrowsEntityNotFoundException() {
         //Arrange
         LocalDate date = LocalDate.of(2025,11,1);
         LocalTime time = LocalTime.of(15, 0);
-        Restaurant restaurant = new Restaurant(1L, "<EMAIL>", "Linda", new ArrayList<>());
+        Guest guest = new Guest(1L, "Madde", "<EMAIL>"); // A valid Guest object to fail the test
+        Restaurant restaurant = new Restaurant(1L, "<EMAIL>", "Lillstan", new ArrayList<>());
         BookingCreationDTO bookingCreationDTO = new BookingCreationDTO(date, time, 5, 1L, 1L);
-        when(restaurantRepository.findById(any())).thenReturn(Optional.of(restaurant)); // First operation  in service class
-        when(guestRepository.findById(any())).thenReturn(Optional.empty()); // Second operation in service class
+        when(restaurantRepository.findById(any())).thenReturn(Optional.of(restaurant));
+        when(guestRepository.findById(any())).thenReturn(Optional.empty()); // Comment this line out to fail test
+//        when(guestRepository.findById(any())).thenReturn(Optional.of(guest)); // Uncomment this line to fail test
 
         //Act
 
         //Assert
-        assertThrows(EntityNotFoundException.class, () -> bookingService.createBooking(bookingCreationDTO));
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> bookingService.createBooking(bookingCreationDTO));
+        assertEquals("Invalid Guest ID", exception.getMessage());
 
     }
 

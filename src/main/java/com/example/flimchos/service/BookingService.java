@@ -30,8 +30,14 @@ public class BookingService {
 
     //Create
     public BookingDTO createBooking(BookingCreationDTO bookingCreationDTO){
-        Restaurant restaurant = restaurantRepository.findById(bookingCreationDTO.getRestaurantId()).orElseThrow(EntityNotFoundException::new);
-        Guest guest = guestRepository.findById(bookingCreationDTO.getGuestId()).orElseThrow(EntityNotFoundException::new);
+        Restaurant restaurant = restaurantRepository.findById(bookingCreationDTO.getRestaurantId()).orElse(null);
+        if(restaurant == null){
+            throw new EntityNotFoundException("Invalid Restaurant ID");
+        }
+        Guest guest = guestRepository.findById(bookingCreationDTO.getGuestId()).orElse(null);
+        if(guest == null){
+            throw new EntityNotFoundException("Invalid Guest ID");
+        }
         Booking booking = BookingMapper.INSTANCE.bookingCreationDTOToBooking(bookingCreationDTO);
         booking.setRestaurant(restaurant);
         booking.setGuest(guest);
@@ -62,14 +68,22 @@ public class BookingService {
 
     //Update
     public BookingDTO updateBookingByID(BookingCreationDTO bookingCreationDTO, Long id){
-        Restaurant restaurant = restaurantRepository.findById(bookingCreationDTO.getRestaurantId()).orElseThrow(EntityNotFoundException::new);
-        Guest guest = guestRepository.findById(bookingCreationDTO.getGuestId()).orElseThrow(EntityNotFoundException::new);
-        Booking bookingToUpdate = bookingRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        Booking bookingToUpdate = bookingRepository.findById(id).orElse(null);
+        if(bookingToUpdate == null){
+            throw new EntityNotFoundException("Invalid Booking ID");
+        }
+        Restaurant restaurant = restaurantRepository.findById(bookingCreationDTO.getRestaurantId()).orElse(null);
+        if(restaurant == null){
+            throw new EntityNotFoundException("Invalid Restaurant ID");
+        }
+        Guest guest = guestRepository.findById(bookingCreationDTO.getGuestId()).orElse(null);
+        if(guest == null){
+            throw new EntityNotFoundException("Invalid Guest ID");
+        }
         bookingToUpdate.setRestaurant(restaurant);
         bookingToUpdate.setGuest(guest);
         bookingToUpdate.setTime(bookingCreationDTO.getTime());
         bookingToUpdate.setDate(bookingCreationDTO.getDate());
-
         return BookingMapper.INSTANCE.bookingToBookingDTO(bookingRepository.save(bookingToUpdate));
     }
 
